@@ -19,8 +19,8 @@ public class FlowTests {
         network = new MockNetwork(ImmutableList.of("com.boye.interbank.payment"));
         a = network.createNode();
         b = network.createNode();
-        a.registerInitiatedFlow(TemplateFlow.Responder.class);
-        b.registerInitiatedFlow(TemplateFlow.Responder.class);
+        a.registerInitiatedFlow(CentralBankMoneyLendingFlow.Responder.class);
+        b.registerInitiatedFlow(CentralBankMoneyLendingFlow.Responder.class);
         network.runNetwork();
     }
 

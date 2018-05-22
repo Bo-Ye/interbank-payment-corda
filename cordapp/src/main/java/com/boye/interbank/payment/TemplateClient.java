@@ -1,6 +1,5 @@
 package com.boye.interbank.payment;
 
-import com.boye.interbank.payment.TemplateState;
 import net.corda.client.rpc.CordaRPCClient;
 import net.corda.client.rpc.CordaRPCClientConfiguration;
 import net.corda.core.contracts.StateAndRef;
@@ -22,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 public class TemplateClient {
     private static final Logger logger = LoggerFactory.getLogger(TemplateClient.class);
 
-    private static void logState(StateAndRef<TemplateState> state) {
+    private static void logState(StateAndRef<IOUState> state) {
         logger.info("{}", state.getState().getData());
     }
 
@@ -38,10 +37,10 @@ public class TemplateClient {
         final CordaRPCOps proxy = client.start("user1", "test").getProxy();
 
         // Grab all existing TemplateStates and all future TemplateStates.
-        final DataFeed<Vault.Page<TemplateState>, Vault.Update<TemplateState>> dataFeed = proxy.vaultTrack(TemplateState.class);
+        final DataFeed<Vault.Page<IOUState>, Vault.Update<IOUState>> dataFeed = proxy.vaultTrack(IOUState.class);
 
-        final Vault.Page<TemplateState> snapshot = dataFeed.getSnapshot();
-        final Observable<Vault.Update<TemplateState>> updates = dataFeed.getUpdates();
+        final Vault.Page<IOUState> snapshot = dataFeed.getSnapshot();
+        final Observable<Vault.Update<IOUState>> updates = dataFeed.getUpdates();
 
         // Log the existing TemplateStates and listen for new ones.
         snapshot.getStates().forEach(TemplateClient::logState);
